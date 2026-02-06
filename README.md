@@ -162,7 +162,7 @@ streamlit run dashboard/app.py
 ---
 
 
-## 🙏 Acknowledgments
+##  Acknowledgments
 
 - Ghana Armed Forces (internship opportunity - synthetic data used)
 
