@@ -164,7 +164,8 @@ streamlit run dashboard/app.py
 
 ##  Acknowledgments
 
-- Ghana Armed Forces (internship opportunity - synthetic data used)
+- Ghana Armed Forces (internship opportunity - synthetic data used) Department of Information Technology 
+  
 
 ---
 
