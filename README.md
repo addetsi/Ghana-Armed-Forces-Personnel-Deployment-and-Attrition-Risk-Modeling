@@ -9,7 +9,7 @@
 
 ##  Project Overview
 
-This portfolio project demonstrates end-to-end data science capabilities in HR analytics, focusing on military personnel management. The system combines classification and regression models to:
+This project demonstrates end-to-end data science capabilities in HR analytics, focusing on military personnel management. The system combines classification and regression models to:
 
 1. **Predict attrition risk** (HIGH/MEDIUM/LOW) - Early warning system for retention
 2. **Forecast readiness scores** (0-100) - Support deployment planning
