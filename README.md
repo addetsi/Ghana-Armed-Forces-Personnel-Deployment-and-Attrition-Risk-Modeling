@@ -1,171 +1,251 @@
 # Military HR Analytics - Personnel Deployment & Attrition Risk System
 
-**Predictive analytics system for military workforce planning**
-
-![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)
-![Status](https://img.shields.io/badge/Status-In_Progress-yellow.svg)
+A data science portfolio project demonstrating predictive analytics for military HR management. Built using synthetic data to replicate work conducted during an internship with the Ghana Armed Forces.
 
 ---
 
-##  Project Overview
+## Project Overview
 
-This project demonstrates end-to-end data science capabilities in HR analytics, focusing on military personnel management. The system combines classification and regression models to:
+Military organizations face unique HR challenges: high training costs, specialized skill requirements, deployment readiness demands, and retention of experienced personnel. This project builds a data-driven system to help commanders answer:
 
-1. **Predict attrition risk** (HIGH/MEDIUM/LOW) - Early warning system for retention
-2. **Forecast readiness scores** (0-100) - Support deployment planning
-3. **Simulate deployment scenarios** - "What-if" analysis for workforce decisions
-
-**Note:** All data is synthetic and does not represent actual military personnel.
-
----
-
-##  Project Goals
-
-### Business Objectives
-- Identify personnel at risk of leaving before contract completion
-- Predict individual and unit readiness for deployments
-- Enable data-driven retention and deployment decisions
-- Reduce attrition costs and optimize training investments
-
-### Technical Objectives
-- Build multi-class classification model (attrition risk)
-- Build regression model (readiness forecasting)
-- Engineer 25+ predictive features
-- Create interactive dashboard for workforce metrics
-- Develop deployment scenario simulator
+- Which personnel are at risk of leaving before contract completion?
+- What is the predicted readiness level of units for potential deployments?
+- How do training investments, health status, and leave patterns affect retention?
+- What deployment scenarios optimize force readiness while minimizing attrition?
 
 ---
 
-##  Technology Stack
+## Dashboard Screenshots
 
-**Core:**
-- Python 3.8+
-- Jupyter Notebook
-- Pandas, NumPy
+**Workforce Overview**
 
-**Machine Learning:**
-- Scikit-learn (preprocessing, baseline models)
-- XGBoost (primary classifier/regressor)
-- LightGBM (fast alternative)
-- SHAP (model interpretation)
+![Workforce Overview](dashboard/images/overview.png)
 
-**Visualization:**
-- Matplotlib, Seaborn (static plots)
-- Plotly (interactive charts)
-- Streamlit (dashboard)
+**Attrition Risk Analysis**
 
-**Deployment:**
-- Docker (containerization)
+![Attrition Risk](dashboard/images/attrition_risk.jpeg)
+
+**Branch and Rank Breakdown**
+
+![Branch and Rank](dashboard/images/branch%20and%20rank.png)
+
+**Readiness Assessment**
+
+![Readiness Assessment](dashboard/images/readiness.jpeg)
+
+**Deployment Simulator**
+
+![Deployment Simulator](dashboard/images/simulator%20.jpeg)
 
 ---
 
+## Dataset
 
-## Quick Start
+- **Personnel records:** 1,000 active service members
+- **Time period:** 5 years of historical records (2019-2024)
+- **Service branches:** Army (60%), Navy (20%), Air Force (20%)
+- **Rank distribution:** Junior (50%), NCO (35%), Officer (15%)
+- **Features:** 100 variables across demographics, training, health, deployment, performance, and personal factors
+- **Note:** All data is synthetically generated. No real military personnel data was used.
 
-### 1. Setup Environment
+---
+
+## Models
+
+### Attrition Risk Classification
+
+Predicts whether personnel are HIGH_RISK, MEDIUM_RISK, or LOW_RISK of leaving within 12 months.
+
+| Metric | Result |
+|--------|--------|
+| Best Model | XGBoost |
+| Recall (HIGH_RISK) | 0.69 |
+| Precision (HIGH_RISK) | 0.53 |
+| F1-Score (weighted) | 0.81 |
+| Training Samples | 1,308 (after SMOTE) |
+| Test Samples | 200 |
+| Features Used | 100 |
+
+**Top 5 Attrition Predictors:**
+
+| Feature | Importance |
+|---------|------------|
+| retention_risk_composite | 0.110 |
+| months_until_contract_end | 0.075 |
+| contract_pressure | 0.049 |
+| mos_retention_rate | 0.046 |
+| civilian_job_offers | 0.032 |
+
+### Readiness Score Regression
+
+Predicts individual readiness scores (0-100 scale) for deployment planning.
+
+| Metric | Result |
+|--------|--------|
+| Best Model | Linear Regression |
+| RMSE | 5.45 points |
+| R² Score | 0.656 |
+| MAE | 4.35 points |
+| MAPE | 6.20% |
+| Training Samples | 800 |
+| Test Samples | 200 |
+| Features Used | 98 |
+
+---
+
+## Key Findings
+
+- **Contract pressure** is the strongest attrition predictor - personnel within 12 months of contract end are significantly more likely to leave
+- **Civilian job offers** rank among the top 6 predictors, highlighting the importance of competitive retention packages
+- **Readiness** is best predicted by training scores, health index, and deployment recency
+- **Average readiness score** across the force is 71.2, with 44.9% of personnel below the 70-point threshold
+- **6.3% of personnel** fall into the HIGH_RISK attrition category requiring immediate retention intervention
+
+---
+
+## Project Structure
+
+```
+Ghana-Armed-Forces-Personnel-Deployment-and-Attrition-Risk-Modeling/
+├── dashboard/
+│   ├── app.py                          # Streamlit dashboard
+│   └── images/                         # Dashboard screenshots
+├── data/
+│   ├── raw/                            # Generated raw data
+│   └── processed/                      # Engineered features
+├── models/
+│   ├── attrition_classifier.pkl        # Trained XGBoost classifier
+│   ├── readiness_regressor.pkl         # Trained regression model
+│   └── readiness_scaler.pkl            # Feature scaler
+├── reports/
+│   ├── figures/                        # All visualizations
+│   ├── attrition_feature_importance.csv
+│   ├── attrition_model_metrics.csv
+│   └── readiness_model_metrics.csv
+├── 01_data_generation.ipynb            # Synthetic data generation
+├── 02_eda.ipynb                        # Exploratory data analysis
+├── 03_feature_engineering.ipynb        # Feature engineering (100 features)
+├── 04_attrition_modeling.ipynb         # Classification models
+├── 05_readiness_modeling.ipynb         # Regression models
+├── 06_deployment_simulation.ipynb      # Simulator demo
+├── config.py                           # Project configuration
+├── deployment_simulator.py             # DeploymentSimulator class
+├── Dockerfile                          # Docker container config
+├── docker-compose.yml                  # Docker compose config
+├── requirements.txt                    # Python dependencies
+└── README.md
+```
+
+---
+
+## Installation & Usage
+
+### Option 1: Docker (Recommended)
 
 ```bash
-# Clone repository
-git clone https://github.com/addetsi/Military-Personnel-Deployment-and-Attrition-Risk-Modeling.gut
-cd directory-name
+# Clone the repository
+git clone https://github.com/yourusername/Ghana-Armed-Forces-Personnel-Deployment-and-Attrition-Risk-Modeling.git
+cd Ghana-Armed-Forces-Personnel-Deployment-and-Attrition-Risk-Modeling
 
-# Create virtual environment
-python -m venv hr_env
-source hr_env/bin/activate  # Windows: hr_env\Scripts\activate
+# Build and run
+docker-compose up
+
+# Open browser
+http://localhost:8501
+```
+
+### Option 2: Local Setup
+
+```bash
+# Clone the repository
+git clone https://github.com/yourusername/Ghana-Armed-Forces-Personnel-Deployment-and-Attrition-Risk-Modeling.git
+cd Ghana-Armed-Forces-Personnel-Deployment-and-Attrition-Risk-Modeling
+
+# Create environment
+conda create -n hr_env python=3.10
+conda activate hr_env
 
 # Install dependencies
 pip install -r requirements.txt
-```
 
-### 2. Generate Synthetic Data
-
-```bash
-jupyter notebook notebooks/01_data_generation.ipynb
-```
-
-Run all cells to generate 1000 synthetic personnel records.
-
-### 3. (Coming Soon) Run Dashboard
-
-```bash
+# Run notebooks in order (01 through 05) to generate data and models
+# Then launch dashboard
 streamlit run dashboard/app.py
 ```
 
 ---
 
-##  Current Progress
+## Deployment Simulator
 
-###  Phase 1: Data Generation (COMPLETE)
-- [x] Generated 1000 synthetic personnel records
-- [x] Created 50+ features across 7 categories
-- [x] Calculated 2 target variables (attrition risk, readiness score)
-- [x] Introduced realistic missing data (7%)
-- [x] Validated data quality and distributions
+The deployment simulator allows commanders to run "what-if" scenarios:
 
-**Dataset Specifications:**
-- Sample size: 1000 personnel
-- Time period: 2019-2024 (5 years)
-- Service branches: Army (60%), Navy (20%), Air Force (20%)
-- Attrition risk: HIGH 25%, MEDIUM 30%, LOW 45%
-- Readiness score: Mean ~75, Std ~12
+```python
+from deployment_simulator import DeploymentSimulator
 
-###  Phase 2: EDA & Feature Engineering (NEXT)
-- [ ] Create 15+ exploratory visualizations
-- [ ] Engineer 25+ additional features
-- [ ] Identify top predictors via correlation analysis
-- [ ] Prepare dataset for modeling
+simulator = DeploymentSimulator(
+    data_path='data/processed/features_engineered.csv',
+    attrition_model_path='models/attrition_classifier.pkl',
+    readiness_model_path='models/readiness_regressor.pkl',
+    readiness_scaler_path='models/readiness_scaler.pkl'
+)
 
-###  Upcoming Phases
-- Phase 3: Attrition Prediction Model
-- Phase 4: Readiness Forecasting Model
-- Phase 5: Deployment Scenario Simulator
-- Phase 6: Interactive Dashboard
-- Phase 7: Docker Deployment
-- Phase 8: Documentation & Polish
+results = simulator.simulate_deployment(
+    n_personnel=50,
+    duration_months=6,
+    min_readiness=80,
+    mos_requirements=['Infantry', 'Medical', 'Logistics'],
+    allow_high_risk=False,
+    strategy='balanced'
+)
+```
 
----
-
-##  Target Metrics
-
-### Classification (Attrition Risk)
-- Recall (HIGH_RISK): ≥ 0.75
-- F1-Score: ≥ 0.67
-- ROC-AUC: ≥ 0.80
-
-### Regression (Readiness Score)
-- RMSE: ≤ 8 points (on 0-100 scale)
-- R²: ≥ 0.70
-- MAE: ≤ 6 points
+**Strategies:**
+- `readiness` - Prioritizes highest readiness scores
+- `low_risk` - Prioritizes lowest attrition probability
+- `balanced` - Composite score of readiness and retention risk
 
 ---
 
-##  Key Features Generated
+## Technologies
 
-**Demographics:** Age, gender, branch, rank, MOS, years of service
-
-**Training:** Total hours, courses, certifications, scores, skills currency
-
-**Health:** Health index, fitness score, medical leave, mental health status
-
-**Leave:** Annual leave, emergency leave, unauthorized absences
-
-**Deployment:** Total deployments, recent deployment history, combat exposure
-
-**Performance:** Review scores, commendations, disciplinary actions, leadership potential
-
-**Personal:** Marital status, dependents, education, financial stress, job offers
-
-**Targets:**
-- `attrition_risk`: HIGH_RISK / MEDIUM_RISK / LOW_RISK
-- `readiness_score`: 0-100 continuous score
+| Category | Tools |
+|----------|-------|
+| Language | Python 3.10 |
+| ML Models | XGBoost, LightGBM, Scikit-learn |
+| Data | Pandas, NumPy, Faker |
+| Visualization | Plotly, Matplotlib, Seaborn |
+| Dashboard | Streamlit |
+| Interpretation | SHAP |
+| Deployment | Docker, Docker Compose |
 
 ---
 
+## Ethical Considerations
 
-##  Acknowledgments
-
-- Ghana Armed Forces (internship opportunity - synthetic data used) Department of Information Technology 
-  
+- **Privacy:** All personnel data is synthetically generated. No real names or identifying information is used. Personnel are referenced by ID only.
+- **Bias:** Models were checked for demographic bias across gender, age, and MOS categories. Predictions should not be used as the sole basis for personnel decisions.
+- **Transparency:** Model limitations are documented. Predictions assume historical patterns continue and cannot account for sudden external events.
+- **Security:** No actual operational data, mission details, or classified information is included in this repository.
 
 ---
 
+## Future Improvements
+
+- Increase attrition recall score with additional feature engineering and larger training data
+- Add survival analysis for time-to-attrition modeling
+- Integrate real-time data pipeline for live predictions
+- Add unit-level aggregated analytics
+- Expand deployment simulator with Monte Carlo uncertainty estimates
+- Build REST API for integration with existing HR systems
+
+---
+
+## Author
+
+**Godwin Addetsi**
+MSc Data Science, Leiden University
+godwinaddetsi12@gmail.com
+
+---
+
+*This project uses entirely synthetic data generated for portfolio demonstration purposes. It does not represent actual Ghana Armed Forces personnel, operations, or data systems.*
